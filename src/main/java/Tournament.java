@@ -3,8 +3,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class Tournament {
-
     private List<Integer> competitor;
+
     private final HashMap<Integer,Integer> score = new HashMap<>();
 
     public Tournament(int round, int nCompetitor) throws Exception {
@@ -22,8 +22,15 @@ public class Tournament {
                 ));
 
         System.out.println("==== TOP 3 ====");
-        for(int i = 1; i< 4; i++){
-            System.out.println("Competitor #" + i + " with " + sortedScore.get(i) + " points");
+        int printTopThree = 1;
+        for(Map.Entry<Integer, Integer> competitor : sortedScore.entrySet()){
+            if(printTopThree>3){
+                break;
+            }
+            else{
+                System.out.println("Competitor #" + competitor.getKey() + " with " + competitor.getValue() + " points");
+                printTopThree++;
+            }
         }
 
         System.out.println("");
@@ -40,20 +47,19 @@ public class Tournament {
         }
     }
 
-    public void updateScore(int qtde) throws Exception{
+    public void updateScore(int qtde){
         int count = qtde;
-        for(int i = 0; i < qtde; i++){
-            int indice = competitor.get(i);
-            if(score.get(indice) == null){
-                score.put(indice, count);
+        for(int i = 0; i < this.competitor.size(); i++){
+            int index = competitor.get(i);
+            if(score.get(index) == null){
+                score.put(index, count);
             }
             else{
-                int sum = score.get(indice) + count;
-                score.put(indice, sum);
+                int sum = score.get(index) + count;
+                score.put(index, sum);
             }
             count--;
         }
-
     }
 
     public void startTournament(int n) throws Exception{
